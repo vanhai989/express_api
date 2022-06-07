@@ -21,9 +21,10 @@ import {
   updatePostSchema,
   deletePostSchema,
 } from "./schema/post.schema";
+import log from "./logger";
 
 export default function (app: Express) {
-  app.get("/healthcheck", (req: Request, res: Response) => res.sendStatus(200));
+  app.get("/healthcheck", (req: Request, res: Response) => res.send('hello you are got it'));
 
   // Register user
   app.post("/api/users", validateRequest(createUserSchema), createUserHandler);
