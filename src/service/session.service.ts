@@ -5,6 +5,7 @@ import { UserDocument } from "../model/user.model";
 import Session, { SessionDocument } from "../model/session.model";
 import { sign, decode } from "../utils/jwt.utils";
 import { findUser } from "./user.service";
+import log from "../logger";
 
 export async function createSession(userId: string, userAgent: string) {
   const session = await Session.create({ user: userId, userAgent });
@@ -54,7 +55,7 @@ export async function reIssueAccessToken({
 
   const accessToken = createAccessToken({ user, session });
 
-  return accessToken;
+  return {accessToken, user: session.user};
 }
 
 export async function updateSession(

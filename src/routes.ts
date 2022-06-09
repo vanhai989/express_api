@@ -11,6 +11,7 @@ import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
   getUserSessionsHandler,
+  refreshToken,
 } from "./controller/session.controller";
 import { validateRequest, requiresUser } from "./middleware";
 import {
@@ -25,7 +26,7 @@ import {
 import log from "./logger";
 
 export default function (app: Express) {
-  app.get("/healthcheck", (req: Request, res: Response) => res.send('hello you are got it'));
+  app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send('hello you are got it'));
 
   // Register user
   app.post("/api/users", validateRequest(createUserSchema), createUserHandler);
@@ -39,6 +40,9 @@ export default function (app: Express) {
 
   // Get the user's sessions
   app.get("/api/sessions", requiresUser, getUserSessionsHandler);
+
+  // refresh token
+  app.post("/api/refreshToken", refreshToken);
 
   // Logout
   app.delete("/api/sessions", requiresUser, invalidateUserSessionHandler);

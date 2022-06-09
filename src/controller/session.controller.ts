@@ -7,6 +7,7 @@ import {
   createAccessToken,
   updateSession,
   findSessions,
+  reIssueAccessToken,
 } from "../service/session.service";
 import { sign } from "../utils/jwt.utils";
 import log from "../logger";
@@ -35,7 +36,7 @@ export async function createUserSessionHandler(req: Request, res: Response) {
   });
 
   // send refresh & access token back
-  return res.send({ accessToken, refreshToken });
+  return res.send({ accessToken, refreshToken, user });
 }
 
 export async function invalidateUserSessionHandler(
@@ -58,4 +59,14 @@ export async function getUserSessionsHandler(req: Request, res: Response) {
     return users;
   });
   return res.send(userMap);;
+}
+
+export async function refreshToken(req: Request, res: Response) {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.sendStatus(403);
+  } else {
+    const result: any = await reIssueAccessToken({refreshToken});
+    return res.send({accessToken: result.accessToken, user: result.user, refreshToken});;
+  }
 }
