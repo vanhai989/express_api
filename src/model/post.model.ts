@@ -6,10 +6,6 @@ export interface PostDocument extends mongoose.Document {
   user: UserDocument["_id"];
   title: string;
   body: string;
-  // img: {
-  //       data: Buffer,
-  //       contentType: String
-  // },
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,7 +21,6 @@ const PostSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     title: { type: String, default: true },
     body: { type: String, default: true },
-    // img: { type: Image, default: true },
   },
   { timestamps: true }
 );

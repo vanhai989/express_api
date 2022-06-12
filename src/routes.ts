@@ -24,6 +24,10 @@ import {
   deletePostSchema,
 } from "./schema/post.schema";
 import log from "./logger";
+import { createPhoto, getPhotos } from "./controller/photo.controller";
+import upload from "./middleware/upload";
+import { createInstagramPost, getInstagramPosts } from "./controller/instagramPost.controller";
+import instagramPostModel from "./model/instagramPost.model";
 
 export default function (app: Express) {
   app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send('hello you are got it'));
@@ -73,4 +77,19 @@ export default function (app: Express) {
     [requiresUser, validateRequest(deletePostSchema)],
     deletePostHandler
   );
+
+  // upload imgs
+  app.post('/api/photos', requiresUser, upload.single('img'), createPhoto);
+  app.get('/api/photos', getPhotos);
+  // app.get('/photos/:id', requiresUser, getPhoto);
+  // app.put('/photos/:id', requiresUser, updatePhoto);
+  // app.delete('/photos/:id', requiresUser, deletePhoto);
+
+  // instagram post
+  app.post('/api/instagrampost', requiresUser, upload.single('postImage'), createInstagramPost);
+  app.get('/api/instagramposts', requiresUser, async (req: Request, res: Response) => {
+    const instagramPosts: any = await instagramPostModel.find().lean();
+    res.json(instagramPosts)
+  });
+
 }

@@ -7,6 +7,8 @@ import {
 import Post, { PostDocument } from "../model/post.model";
 
 export function createPost(input: DocumentDefinition<PostDocument>) {
+  console.log('input post', input);
+  
   return Post.create(input);
 }
 
