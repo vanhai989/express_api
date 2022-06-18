@@ -16,21 +16,25 @@ export async function getInstagramPosts (req: Request, res: Response) {
 };
 
 export async function createInstagramPost(req: any, res: Response) {
+
  try {
-  const userId = get(req, "user._id");
+  const user = get(req, "user");
   const index = req.file.path.lastIndexOf('/');
   const pathName = req.file.path.slice(index);
+  const nameImage = pathName.slice(1, pathName.lastIndexOf('.'));
   const instagramPost = new InstagramPostModel({
-    username: req.body.username,
-    nameImage: req.body.nameImage,
+    username: user.name,
     postImage: `http://${host}:${port}${pathName}`,
     contentPost: req.body.contentPost,
-    user: userId,
+    user: user._id,
   })
+
+  console.log('instagramPost', instagramPost);
+  
   const post = await createInstagramPostService({ ...instagramPost });
 
   const photo = new Photo({
-    name: req.body.nameImage,
+    name: nameImage,
     img: `http://${host}:${port}${pathName}`,
   });
 

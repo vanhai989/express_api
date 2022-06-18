@@ -6,7 +6,7 @@ import {
   deletePostHandler,
   getAllPostHandler,
 } from "./controller/post.controller";
-import { createUserHandler } from "./controller/user.controller";
+import { createUserHandler, updateUserHandler } from "./controller/user.controller";
 import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
@@ -30,7 +30,7 @@ import { createInstagramPost, getInstagramPosts } from "./controller/instagramPo
 import instagramPostModel from "./model/instagramPost.model";
 
 export default function (app: Express) {
-  app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send('hello you are got it'));
+  app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send({message: 'hello you are got it'}));
 
   // Register user
   app.post("/api/users", validateRequest(createUserSchema), createUserHandler);
@@ -40,6 +40,12 @@ export default function (app: Express) {
     "/api/sessions",
     validateRequest(createUserSessionSchema),
     createUserSessionHandler
+  );
+
+  app.put(
+    "/api/user",
+    requiresUser, upload.single('avatar'),
+    updateUserHandler
   );
 
   // Get the user's sessions
