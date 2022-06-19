@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import log from '../logger';
 import InstagramPostModel from '../model/instagramPost.model';
 import Photo from '../model/photo.model';
+import { UserDocument } from '../model/user.model';
 import { createInstagramPostService } from '../service/istagramPost.service';
 
 const port = config.get("port") as number;
@@ -18,7 +19,7 @@ export async function getInstagramPosts (req: Request, res: Response) {
 export async function createInstagramPost(req: any, res: Response) {
 
  try {
-  const user = get(req, "user");
+  const user: UserDocument = get(req, "user");
   const index = req.file.path.lastIndexOf('/');
   const pathName = req.file.path.slice(index);
   const nameImage = pathName.slice(1, pathName.lastIndexOf('.'));
@@ -26,10 +27,9 @@ export async function createInstagramPost(req: any, res: Response) {
     username: user.name,
     postImage: `http://${host}:${port}${pathName}`,
     contentPost: req.body.contentPost,
+    avatar: user?.avatar || 'https://picsum.photos/200',
     user: user._id,
   })
-
-  console.log('instagramPost', instagramPost);
   
   const post = await createInstagramPostService({ ...instagramPost });
 

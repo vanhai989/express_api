@@ -7,6 +7,7 @@ export interface IInstagramPost extends Document {
     username: string,
     postImage: string;
     contentPost: string;
+    avatar: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -14,6 +15,7 @@ export interface IInstagramPost extends Document {
 const instagramPostSchema = new Schema({
     username: {type: String, required: true},
     postImage: {type: String, required: true},
+    avatar: {type: String, required: false},
     contentPost: {type: String, required: true},
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });

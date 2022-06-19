@@ -55,7 +55,7 @@ export async function reIssueAccessToken({
 
   const accessToken = createAccessToken({ user, session });
 
-  return {accessToken, user: session.user};
+  return {accessToken, user: user};
 }
 
 export async function updateSession(

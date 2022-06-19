@@ -42,6 +42,7 @@ export default function (app: Express) {
     createUserSessionHandler
   );
 
+  // change avatar
   app.put(
     "/api/user",
     requiresUser, upload.single('avatar'),
@@ -49,7 +50,7 @@ export default function (app: Express) {
   );
 
   // Get the user's sessions
-  app.get("/api/sessions", requiresUser, getUserSessionsHandler);
+  app.get("/api/users", requiresUser, getUserSessionsHandler);
 
   // refresh token
   app.post("/api/refreshToken", refreshToken);

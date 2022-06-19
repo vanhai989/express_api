@@ -67,6 +67,6 @@ export async function refreshToken(req: Request, res: Response) {
     return res.sendStatus(403);
   } else {
     const result: any = await reIssueAccessToken({refreshToken});
-    return res.send({accessToken: result.accessToken, user: result.user, refreshToken});;
+    return res.status(200).send({accessToken: result.accessToken, user: result.user, refreshToken});;
   }
 }
