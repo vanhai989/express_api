@@ -30,7 +30,8 @@ import { createInstagramPost, getInstagramPosts } from "./controller/instagramPo
 import instagramPostModel from "./model/instagramPost.model";
 
 export default function (app: Express) {
-  app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send({message: 'hello you are got it'}));
+  // app.get("/healthcheck", requiresUser, (req: Request, res: Response) => res.send({message: 'hello you are got it'}));
+  app.get("/healthcheck", (req: Request, res: Response) => res.send({message: 'hello you are got it'}));
 
   // Register user
   app.post("/api/users", validateRequest(createUserSchema), createUserHandler);

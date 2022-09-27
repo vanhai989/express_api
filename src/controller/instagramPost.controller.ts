@@ -23,6 +23,8 @@ export async function createInstagramPost(req: any, res: Response) {
   const index = req.file.path.lastIndexOf('/');
   const pathName = req.file.path.slice(index);
   const nameImage = pathName.slice(1, pathName.lastIndexOf('.'));
+  console.log('nameImage', nameImage);
+  
   const instagramPost = new InstagramPostModel({
     username: user.name,
     postImage: `http://${host}:${port}${pathName}`,
